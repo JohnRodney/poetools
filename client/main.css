@@ -1,0 +1,207 @@
+/* CSS declarations go here */
+body {
+  background-color: white;
+}
+* {
+  padding: 0;
+  margin: 0;
+  transition: .5s ease-in-out;
+}
+.results-container{
+  padding-top: 80px;
+}
+.results-container > div{
+  padding-top: 20px;
+  background-color: #767676;
+  color: white;
+}
+.results-container > div:nth-child(even){
+  background-color: #454545;
+}
+.results-container > div:nth-child(odd){
+  background-color: #565656;
+}
+
+input{
+  margin: 10px;
+}
+.results-container > div > p {
+  float: left;
+  margin: 10px;
+  margin-left: 20px;
+  margin-bottom: 30px;
+}
+.clear-fix{
+  width: 100%;
+  height: 1px;
+  clear: both;
+}
+.items-container{
+  clear: both;
+}
+.corrupted{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: white;
+  background-color: #991111;
+  width: 80px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+  float: left;
+  font-size: 12px;
+}
+.an-item {
+  position: relative;
+  display: block;
+  float: left;
+  width: 100%;
+  background-color: #343434;
+  color: white;
+}
+.an-item:nth-child(even) {background-color: #343434}
+.an-item:nth-child(odd) {background-color: #454545}
+.item-image{
+  padding-left: 20px;
+  text-align: center;
+  min-width: 100px;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+.item-info{
+  padding: 20px;
+  vertical-align: middle;
+  margin-left: 20px;
+  display: inline-block;
+  width: calc(100% - 180px);
+}
+.header{
+  z-index: 100;
+  padding: 20px;
+  background-color: #343434;
+  color: white;
+  position: fixed;
+  width: 100%;
+  font-size: 24px;
+  box-shadow: 0 0 2px black;
+}
+.header select {
+  position: relative;
+  left: 30px;
+}
+.header input{
+  float: right;
+  margin-right: 50px;
+  height: 20px;
+  padding-left: 40px;
+}
+.header input:before{
+  content: '';
+  background-image: url('/search-icon.png');
+  width: 40px;
+  height: 40px;
+}
+.search-icon{
+  width: 20px;
+  height: 20px;
+  float: right;
+  right: -40px;
+  top: 12px;
+  position: relative;
+}
+.item-name{
+  display: inline-block;
+  font-size: 24px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid white;
+}
+.properties{
+  float: right;
+  vertical-align: top;
+  width: 50%;
+  text-align: left;
+}
+.item-note{
+  margin-top: 10px;
+}
+.ilvl{
+  float: right;
+  width: 50%;
+  text-align: left;
+}
+.sockets{
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  z-index: 20;
+  pointer-events:none;
+  left: 20px;
+}
+.faded{
+  opacity: .3;
+}
+.sockets > div{
+  position: absolute;
+}
+.socket-1{
+  top: 0;
+  left: 0;
+}
+.socket-2{
+  top: 0;
+  left: 50px;
+}
+.socket-3{
+  top: 45px;
+  left: 50px;
+}
+.socket-4{
+  top: 45px;
+  left: 0px;
+}
+.socket-5{
+  top: 90px;
+  left: 0px;
+}
+.socket-6{
+  top: 90px;
+  left: 50px;
+}
+.link{
+  position: absolute;
+  left: -20px;
+  top: 16px;
+}
+.link-3{
+  top: -5px;
+  left: 5px;
+  transform: rotate(90deg);
+}
+.link-4{
+  left: 30px;
+}
+.link-5{
+  top: -5px;
+  left: 5px;
+  transform: rotate(90deg);
+}
+.item-property{
+  background-color: black;
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.item-property .name{
+  font-size: 17px;
+  padding: 10px;
+}
+.item-property .value{
+  background-color: #232323;
+  color: #32CD32;
+  padding: 10px;
+}
+

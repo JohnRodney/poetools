@@ -1,0 +1,177 @@
+.stash-tab-body{
+  padding-top: 100px;
+}
+.block{
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: #121212;
+  border: 1px solid #454545;
+  margin-top: -2px;
+  margin-bottom: -2px;
+}
+.stash-tab-body{
+  position: fixed;
+  left: 40px;
+  width: 600px;
+  float: right;
+  margin-right: 200px;
+}
+.block.taken:after{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 155, .5);
+  width: 50px;
+  height: 49px;
+  z-index: 100;
+  content: '';
+  display: block;
+}
+.stash-tab-icon{
+  pointer-events: none;
+  position: absolute;
+  z-index: 101;
+}
+.tool-tip{
+  position: absolute;
+  background-color: rgba(0, 0, 0, .8);
+  z-index: 200;
+  color: white;
+  transition: 0s ease-in-out;
+  top: 98px;
+  left: 600px;
+  min-width: 500px;
+}
+.tool-tip * {
+  transition: 0s ease-in-out;
+}
+.tool-tip .item-name{
+  opacity: .8;
+  padding: 0;
+  border-bottom: none;
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+  margin-bottom: 0;
+}
+.tool-tip .item-name > div{
+  text-align: center;
+  min-width: 200px;
+  padding: 10px;
+}
+.unique.name{
+  border: 2px solid #ea6d00;
+}
+.magic.name{
+  border: 2px solid #1367ab;
+}
+.rare.name{
+  border: 2px solid #FFE500;
+}
+.normal.name{
+  border: 2px solid #efefef;
+}
+.unique{
+  background-color: #da5d00;
+  border: 2px solid #fa7d10;
+  color: #fa7d10;
+  text-shadow: 0 0 100px black, 0 0 50px black, 0 0 25px black, 0 0 10px black;
+}
+.magic{
+  background-color: #1367ab;
+  border: 2px solid #2377bb;
+  color: #4397fb;
+  text-shadow: 0 0 100px black, 0 0 50px black, 0 0 25px black, 0 0 10px black;
+}
+.rare{
+  background-color: #FFE500;
+  border: 2px solid #FFf510;
+  color: #FFf550;
+  text-shadow: 0 0 100px black, 0 0 50px black, 0 0 25px black, 0 0 10px black;
+}
+.normal{
+  background-color: #efefef;
+  border: 2px solid #ffffff;
+  color: white;
+  text-shadow: 0 0 100px black, 0 0 50px black, 0 0 25px black, 0 0 10px black;
+}
+.tool-tip .properties{
+  text-align: center;
+  display: inline-block;
+  float: none;
+  width: 100%;
+  padding: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  box-sizing: border-box;
+}
+.property-value{
+  color: white;
+}
+.property-name{
+  color: grey;
+}
+.tool-tip > div:last-child{
+  padding-bottom: 10px;
+}
+.tool-tip-divider{
+  width: 60%;
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 0, 0.75), rgba(0, 0, 0, 0));
+  margin: 4px auto 8px auto;
+}
+.tool-tip .mods{
+  text-align: center;
+  color: #2397ef;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.tabs{
+  position: relative;
+  top: -2px;
+  float: left;
+  padding-top: 100px;
+  text-align: left;
+}
+.tabs > div{
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.tabs > div.active{
+  background-color: yellow;
+  color: black;
+}
+.unidentified{
+  text-align: center;
+  color: red;
+}
+.stash-tab-body .sockets{
+  position: absolute;
+  left: 0;
+  z-index: 202;
+}
+.socket-2.width-1{
+  top: 45px;
+  left: 0;
+}
+.socket-3.width-1{
+  top: 90px;
+  left: 0;
+}
+.link-2.width-1{
+  top: -6px;
+  left: 4px;
+  transform: rotate(90deg);
+}
+.link-3.width-1{
+  left: 4px;
+}
