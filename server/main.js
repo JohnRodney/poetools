@@ -33,7 +33,11 @@ function getABatch(id) {
     console.log(res.stashes.length);
 
     res.stashes.forEach((stash) => {
-      Stashes.insert(stash);
+      try {
+        Stashes.insert(stash);
+      } catch (e) {
+        console.log('error parsing', stash, e)
+      }
     });
 
     console.log('inserted all');
@@ -50,7 +54,6 @@ function getABatch(id) {
       setTimeout(() => {getABatch(id)}, 1000);
     }
   }));
-
 }
 
 Meteor.methods({
