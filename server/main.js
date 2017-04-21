@@ -29,12 +29,18 @@ function getABatch(id) {
   };
 
   rp(options).then(Meteor.bindEnvironment((res) => {
-    if (!res.stashes) { getABatch(id); }
-    console.log(res.stashes.length);
+    if (!typeof(res.stashes) === 'object') { getABatch(id); }
 
     res.stashes.forEach((stash) => {
       try {
-        Stashes.insert(stash);
+        // Look for the stash already in the database
+        const existingStash = Stashes.findOne({ id: stash.id });
+        if (existingStash) {
+          console.log('found one with ID': existingStash.id)
+          Stashes.update({ _id: existingStash._id }, stash);
+        } else {
+          Stashes.insert(stash);
+        }
       } catch (e) {
         console.log('error parsing: ', e)
       }

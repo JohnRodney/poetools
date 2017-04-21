@@ -127,10 +127,20 @@ function composer(props, onData) {
   accountName = pathname.substring(pathname.lastIndexOf('/') + 1, pathname.length);
   stashesHandle = Meteor.subscribe('stashes', accountName);
   if (stashesHandle.ready()) {
+    // Find all the stashes for this user that have items
     const stashes = Stashes.find().fetch().filter((stash) => {
       return stash.items && stash.items.length > 0 && stash.accountName === accountName;
     });
-    console.log('ready')
+
+    // If the tab has a buyout for all add it to each item
+    stashes.forEach((stash) => {
+      if (stash.stash.indexOf('b/o') > -1) {
+        stash.items.forEach((item) => {
+          item.note = stash.stash;
+        });
+      }
+    });
+    // send the react component its data
     onData( null, { stashes });
   }
 }

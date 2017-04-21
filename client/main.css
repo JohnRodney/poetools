@@ -1,6 +1,15 @@
 /* CSS declarations go here */
+@font-face {
+  font-family: 'fontin_smallcapssmallcaps';
+  src: url('/fontin-smallcaps-webfont.woff2') format('woff2'),
+       url('/fontin-smallcaps-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   background-color: white;
+  font-family: 'fontin_smallcapssmallcaps';
 }
 * {
   padding: 0;

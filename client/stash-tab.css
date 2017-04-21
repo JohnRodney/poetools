@@ -62,6 +62,9 @@
   min-width: 200px;
   padding: 10px;
 }
+.gem.name{
+  border: 2px solid #0eb5af;
+}
 .unique.name{
   border: 2px solid #ea6d00;
 }
@@ -74,25 +77,31 @@
 .normal.name{
   border: 2px solid #efefef;
 }
-.unique{
+.gem.base, .gem.name{
+  background-color: #0eb5af;
+  border: 2px solid #2ed5cf;
+  color: #2ed5cf;
+  text-shadow: 0 0 100px black, 0 0 50px black, 0 0 25px black, 0 0 10px black;
+}
+.unique.base, .unique.name{
   background-color: #da5d00;
   border: 2px solid #fa7d10;
   color: #fa7d10;
   text-shadow: 0 0 100px black, 0 0 50px black, 0 0 25px black, 0 0 10px black;
 }
-.magic{
+.magic.base, .magic.name{
   background-color: #1367ab;
   border: 2px solid #2377bb;
   color: #4397fb;
   text-shadow: 0 0 100px black, 0 0 50px black, 0 0 25px black, 0 0 10px black;
 }
-.rare{
+.rare.base, .rare.name{
   background-color: #FFE500;
   border: 2px solid #FFf510;
   color: #FFf550;
   text-shadow: 0 0 100px black, 0 0 50px black, 0 0 25px black, 0 0 10px black;
 }
-.normal{
+.normal.base, .normal.name{
   background-color: #efefef;
   border: 2px solid #ffffff;
   color: white;
@@ -124,9 +133,12 @@
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 0, 0.75), rgba(0, 0, 0, 0));
   margin: 4px auto 8px auto;
 }
+.tool-tip-divider.gem{
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(14, 181, 175, .75), rgba(0, 0, 0, 0));
+}
 .tool-tip .mods{
   text-align: center;
-  color: #2397ef;
+  color: #00b6ff;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -174,4 +186,33 @@
 }
 .link-3.width-1{
   left: 4px;
+}
+.description{
+  color: #0eb5af;
+  text-align: center;
+}
+.requirements{
+  color: grey;
+  text-align: center;
+}
+.requirement-value{
+  color: white;
+}
+.tool-tip .corrupted{
+  text-align: center;
+  color: red;
+  position: relative;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0);
+  width: 100%;
+  font-size: 16px;
+}
+.additional-properties {
+  color: grey;
+  text-align: center;
+}
+.note{
+  color: grey;
+  text-align: center;
 }

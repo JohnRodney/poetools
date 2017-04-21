@@ -75,6 +75,49 @@ export default class ToolTip extends React.Component {
     });
   }
 
+  getDescText(item) {
+    if (!item.secDescrText) { return <div></div> }
+    return (
+      <div>{item.secDescrText}</div>
+    )
+  }
+
+  getRequirements(item) {
+    if (!item.requirements) { return <div></div> }
+    return (
+      <div>
+        <span>Requires </span>
+        {
+          item.requirements.map((requirement) => {
+            return (
+              <span key={Meteor.uuid()}>
+                <span className='requirement-name'>{requirement.name} </span>
+                <span className='requirement-value'>{requirement.values[0][0]} </span>
+              </span>
+            )
+          })
+        }
+      </div>
+    );
+  }
+
+  getAdditionalProperties(item) {
+    if (!item.additionalProperties) { return <div></div> }
+    return (
+      <div>
+        {
+          item.additionalProperties.map((property) => {
+            return (
+              <div key={Meteor.uuid()}>
+                { property.name } : {property.values[0][0]}
+              </div>
+            );
+          })
+        }
+      </div>
+    );
+  }
+
   render() {
     if (!this.props.show || this.props.item.stub) { return null }
     const { item } = this.props;
@@ -96,15 +139,45 @@ export default class ToolTip extends React.Component {
         <div className='properties'>
           { this.renderProperties(item) }
         </div>
-        <hr className='tool-tip-divider' />
+        {
+          item && item.properties && item.properties.length > 0 ? <hr className={'tool-tip-divider ' + rarity} /> : ''
+        }
+        <div className='requirements'>
+          { this.getRequirements(item) }
+        </div>
+        {
+          item && item.requirements && item.requirements.length > 0 ? <hr className={'tool-tip-divider ' + rarity} /> : ''
+        }
+        <div className='description'>
+          { this.getDescText(item) }
+        </div>
+        {
+          item && item.secDescrText ? <hr className={'tool-tip-divider ' + rarity} /> : ''
+        }
         <div className='mods'>
           { this.getItemImplicitMods(item) }
         </div>
-        <hr className='tool-tip-divider' />
+        {
+          item && item.implicitMods && item.implicitMods.length > 0 ? <hr className={'tool-tip-divider ' + rarity} /> : ''
+        }
         <div className='mods'>
           { this.getItemExplicitMods(item) }
         </div>
-                <div className='unidentified'>{ item.identified ? '' : 'unidentified' }</div>
+        <div className='corrupted'>{ item.corrupted ? 'corrupted' : '' }</div>
+        <div className='unidentified'>{ item.identified ? '' : 'unidentified' }</div>
+        {
+          item && item.explicitMods && item.explicitMods.length > 0 || item.corrupted || !item.identified ? <hr className={'tool-tip-divider ' + rarity} /> : ''
+        }
+        <div className='additional-properties'>
+          { this.getAdditionalProperties(item) }
+        </div>
+        {
+          item && item.additionalProperties && item.additionalProperties.length > 0 ? <hr className={'tool-tip-divider ' + rarity} /> : ''
+        }
+        <div className='note'>
+          { item.note ? item.note : ''}
+        </div>
+
       </div>
     );
   }
