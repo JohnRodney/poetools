@@ -16,7 +16,7 @@ export default class Header extends React.Component {
         <select onChange={this.changeLeague}>
           <option>Hardcore</option>
           <option>Standard</option>
-          <option>HardcoreLegacy</option>
+          <option>Hardcore Legacy</option>
           <option>Legacy</option>
         </select>
         <input

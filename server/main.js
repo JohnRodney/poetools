@@ -6,10 +6,10 @@ import '../imports/api/stash/publish.js';
 
 Meteor.startup(() => {
   const index = ChangeIndex.findOne();
-  if (!index) {
-    getABatch(null);
+  if (!index || !index.value) {
+   getABatch('62550831-66057206-61889784-71915785-66836847');
   } else {
-    getABatch(index.value);
+   getABatch(index.value);
   }
 });
 
@@ -37,14 +37,18 @@ function getABatch(id) {
     });
 
     console.log('inserted all');
-    if (ChangeIndex.findOne()) {
+    if (ChangeIndex.findOne() && res.next_change_id) {
       console.log('updating change-index');
       ChangeIndex.update(ChangeIndex.findOne()._id, { value: res.next_change_id });
-    } else {
+    } else if(res.next_change_id) {
       ChangeIndex.insert({ value: res.next_change_id });
     }
 
-    getABatch(res.next_change_id);
+    if(res.next_change_id) {
+      getABatch(res.next_change_id);
+    } else {
+      setTimeout(() => {getABatch(id)}, 1000);
+    }
   }));
 
 }
