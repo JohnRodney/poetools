@@ -29,14 +29,14 @@ function getABatch(id) {
   };
 
   rp(options).then(Meteor.bindEnvironment((res) => {
-    if (!res.stashes) { getABatch(res.next_change_id); }
+    if (!res.stashes) { getABatch(id); }
     console.log(res.stashes.length);
 
     res.stashes.forEach((stash) => {
       try {
         Stashes.insert(stash);
       } catch (e) {
-        console.log('error parsing', stash, e)
+        console.log('error parsing: ', e)
       }
     });
 
