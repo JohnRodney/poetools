@@ -2,25 +2,40 @@ import React from 'react';
 import { composeWithTracker } from 'react-komposer';
 import Stashes from '../../../api/stash/collection.js';
 import Item from '../item.jsx';
+import Header from '../header.jsx';
+import SearchComponent from './search-component.jsx'
 
 class Search extends React.Component {
   constructor() {
     super();
   }
+
+  filter(e) {
+    console.log(e, 'filter');
+  }
+
+  setLeague(league) {
+    console.log(e, 'set league');
+  }
+
   render() {
     console.log(this.props);
     return (
-      <div className='search-results'>
-        {
-          this.props.searchItems.map((item) => {
-            return (
-              <Item
-                key={Meteor.uuid()}
-                item={item}
-              />
-            )
-          })
-        }
+      <div>
+        <Header filter={this.filter} setLeague={this.setLeague} />
+        <div className='search-results'>
+          <SearchComponent />
+          {
+            this.props.searchItems.map((item) => {
+              return (
+                <Item
+                  key={Meteor.uuid()}
+                  item={item}
+                />
+              )
+            })
+          }
+        </div>
       </div>
     );
   }

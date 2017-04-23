@@ -244,3 +244,9 @@
   width: 20px;
   height: 20px;
 }
+.search-results{
+  padding-top: 80px;
+}
+.search-component{
+  padding: 20px;
+}
