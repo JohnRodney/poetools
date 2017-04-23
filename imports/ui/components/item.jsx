@@ -1,5 +1,7 @@
 import React from 'react';
 import Sockets from './sockets.jsx';
+import Price from './stash-tab/price.jsx';
+import Whisper from './stash-tab/whisper.jsx';
 
 export default class Item extends React.Component {
   constructor() {
@@ -51,8 +53,8 @@ export default class Item extends React.Component {
   }
 
   debug(e) {
-    e.stopPropagation();
     console.log(this.props.item);
+    FlowRouter.go('/stash-tab/' + this.props.item.accountName);
   }
 
   mouseEnter(e) {
@@ -94,8 +96,9 @@ export default class Item extends React.Component {
             { this.getItemImplicitMods(item) }
           </div>
           <div className='item-note'>
-            { item.note ? 'Note: ' + item.note : '' }
+            <Price note={item.note} />
           </div>
+          <Whisper item={item} />
         </div>
       </div>
     )

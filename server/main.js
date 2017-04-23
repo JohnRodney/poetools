@@ -3,6 +3,7 @@ import rp from 'request-promise';
 import Stashes from '../imports/api/stash/collection.js';
 import ChangeIndex from '../imports/api/change-index.jsx';
 import '../imports/api/stash/publish.js';
+import { ItemFormat } from '../imports/helpers/item-format.jsx';
 
 Meteor.startup(() => {
   const index = ChangeIndex.findOne();
@@ -36,7 +37,6 @@ function getABatch(id) {
         // Look for the stash already in the database
         const existingStash = Stashes.findOne({ id: stash.id });
         if (existingStash) {
-          console.log('found one with ID': existingStash.id)
           Stashes.update({ _id: existingStash._id }, stash);
         } else {
           Stashes.insert(stash);

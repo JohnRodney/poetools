@@ -1,69 +1,47 @@
 import React from 'react';
+import { getFrameType } from '../../../helpers/get-frame-type.jsx';
+import Price from './price.jsx';
 
 export default class ToolTip extends React.Component {
   constructor() {
     super();
   }
 
-  getFrameType(frameType) {
-    return [
-      'normal',
-      'magic',
-      'rare',
-      'unique',
-      'gem',
-      'currency',
-      'divination card',
-      'quest item',
-      'prophecy',
-      'relic'
-    ][frameType];
+  getItemMods(item, type) {
+    if (!item[type]) { return ''; }
+    return item[type].map((mod) => {
+      return (
+        <div className={'item-mod ' + type.substring(0, type.search(/[A-Z]/))}  key={Meteor.uuid()}>
+          { mod.replace(/<.*>/, '').replace(/\{/g, '').replace(/\}/g, '') }
+        </div>
+      )
+    })
   }
 
-  getItemExplicitMods(item) {
-    if(item.explicitMods) {
-      return item.explicitMods.map((mod, i) => {
-        return (
-          <div className='item-mod explicit' key={item.name + mod + i}>
-            { mod }
-          </div>
-        )
-      })
+  replaceWithValues(name, values) {
+    let withValues = name;
+    for(i = 0; i < 5; i++) {
+      if(withValues.indexOf('%' + i) > -1) {
+        withValues = withValues.replace('%' + i, values[i][0])
+      }
     }
-  }
-
-  getItemImplicitMods(item) {
-    if(item.implicitMods) {
-      return item.implicitMods.map((mod, i) => {
-        return (
-          <div className='item-mod implicit' key={item.name + mod + i}>
-            { mod }
-          </div>
-        )
-      })
-    }
+    return withValues;
   }
 
   renderProperties(item) {
     if(!item.properties) { return ''; }
+
     return item.properties.map((property) => {
-      let name = property.name;
+      const { values } = property;
+      let { name } = property;
       let value = false;
-      if (property.values.length > 0) {
-        if(property.name.indexOf('%') > -1) {
-          if(property.name.indexOf('%0') > -1) {
-            name = name.replace('%0', property.values[0][0])
-            value = ''
-          }
-          if(property.name.indexOf('%1') > -1) {
-            name = name.replace('%1', property.values[1][0])
-            value = ''
-          }
-        } else if(property.values[0] && property.values[0].constructor === Array) {
-          value = property.values[0][0];
-        } else {
-          value = property.values[0];
-        }
+
+      if (values.length > 0) {
+        if(name.indexOf('%') > -1) {
+          name = this.replaceWithValues(name, values)
+        } else if(property.values[0].constructor === Array) {
+          value = property.values[0][0]
+        } else { value = property.values[0]; }
       }
 
       return (
@@ -77,9 +55,7 @@ export default class ToolTip extends React.Component {
 
   getDescText(item) {
     if (!item.secDescrText) { return <div></div> }
-    return (
-      <div>{item.secDescrText}</div>
-    )
+    return <div>{item.secDescrText}</div>;
   }
 
   getRequirements(item) {
@@ -122,12 +98,13 @@ export default class ToolTip extends React.Component {
     if (!this.props.show || this.props.item.stub) { return null }
     const { item } = this.props;
     const { name, typeLine } = item;
-    const rarity = this.getFrameType(item.frameType);
+    const rarity = getFrameType(item.frameType);
     const nameLayout = name.replace(/<.*>/, '').length > 0 ? (
         <div className={'name ' + rarity}>
           { name.replace(/<.*>/, '') + ' ' }
         </div>
       ) : '';
+
     return (
       <div className='tool-tip'>
         <div className={'item-name ' + rarity}>
@@ -155,13 +132,13 @@ export default class ToolTip extends React.Component {
           item && item.secDescrText ? <hr className={'tool-tip-divider ' + rarity} /> : ''
         }
         <div className='mods'>
-          { this.getItemImplicitMods(item) }
+          { this.getItemMods(item, 'implicitMods') }
         </div>
         {
           item && item.implicitMods && item.implicitMods.length > 0 ? <hr className={'tool-tip-divider ' + rarity} /> : ''
         }
         <div className='mods'>
-          { this.getItemExplicitMods(item) }
+          { this.getItemMods(item, 'explicitMods') }
         </div>
         <div className='corrupted'>{ item.corrupted ? 'corrupted' : '' }</div>
         <div className='unidentified'>{ item.identified ? '' : 'unidentified' }</div>
@@ -175,9 +152,8 @@ export default class ToolTip extends React.Component {
           item && item.additionalProperties && item.additionalProperties.length > 0 ? <hr className={'tool-tip-divider ' + rarity} /> : ''
         }
         <div className='note'>
-          { item.note ? item.note : ''}
+          <Price note={item.note} />
         </div>
-
       </div>
     );
   }
