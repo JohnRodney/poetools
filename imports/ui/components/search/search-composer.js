@@ -1,12 +1,14 @@
 import Stashes from '../../../api/stash/collection.js';
+import Names from '../../../api/names/collection.js';
 
 export const composer = function (props, onData) {
   checkSessions();
   const searchValue = Session.get('query');
   const stashesHandle = Meteor.subscribe('searchStashes', searchValue, Session.get('league'));
-  if (stashesHandle.ready()) {
+  const namesHandle = Meteor.subscribe('names');
+  if (stashesHandle.ready() && namesHandle.ready()) {
     const searchItems = findItemsInStashes(searchValue);
-    onData( null, { searchItems });
+    onData( null, { searchItems, names: Names.findOne({}).names });
   }
 }
 
@@ -14,6 +16,7 @@ function findItemsInStashes(searchValue) {
   const stashes = Stashes.find().fetch();
   const searchItems = [];
 
+  console.log(stashes.length)
   stashes.map((stash) => {
     return handleStashes(stash, searchItems, searchValue);
   });
@@ -22,7 +25,7 @@ function findItemsInStashes(searchValue) {
 }
 
 function isMultiModSearch(searchValue) {
-  return searchValue.indexOf('&') > -1
+  return searchValue.length > 1;
 }
 
 function handleStashes(stash, searchItems, searchValue) {
@@ -33,13 +36,29 @@ function handleStashes(stash, searchItems, searchValue) {
     return handleSingleModQuery(item, searchValue, stash, searchItems);
   });
 }
-
+/*
+ *[{
+   value: 'maximum life',
+   type: 'Mod',
+ },
+   value: 'Atziri's Promise',
+   type: 'Name',
+ ]
+ */
 function handleSingleModQuery(item, searchValue, stash, searchItems) {
-  item.explicitMods.map((mod) => {
-    if(!modContainsSearch(mod, searchValue) || !itemMatchesLeague(item)) { return false; }
-    storeMetaDataOnItem(item, stash);
-    pushIfUnderLimit(searchItems, item);
-  });
+  search = searchValue[0];
+  if (search.type === 'Mod') {
+    item.explicitMods.map((mod) => {
+      if(!modContainsSearch(mod, search.value) || !itemMatchesLeague(item)) { return false; }
+      storeMetaDataOnItem(item, stash);
+      pushIfUnderLimit(searchItems, item);
+    });
+  } else if (search.type === 'Name') {
+    if (item.name.toLowerCase().indexOf(search.value.toLowerCase()) > -1) {
+      storeMetaDataOnItem(item, stash);
+      pushIfUnderLimit(searchItems, item);
+    }
+  }
 }
 
 function setAllKeysAsFalse(allQueries, searchTracker) {
@@ -73,15 +92,24 @@ function storeMetaDataOnItem(item, stash) {
 }
 
 function filterMultipleMods(searchValue, item, stash, searchItems) {
-  const allQueries = searchValue.split('&');
+  const allQueries = searchValue.map((search) => { return search.type === 'Mod' ? search.value : false; })
+    .filter((search) => search);
   const searchTracker = {};
   setAllKeysAsFalse(allQueries, searchTracker)
   searchForQueryMatch(allQueries, item, searchTracker);
 
-  if(allQueriesWereFound(searchTracker) && itemMatchesLeague(item)) {
+  if(allQueriesWereFound(searchTracker) && itemMatchesLeague(item) && itemMatchesName(searchValue, item)) {
     storeMetaDataOnItem(item, stash)
     pushIfUnderLimit(searchItems, item)
   }
+}
+
+function itemMatchesName(searchValue, item) {
+  nameSearch = searchValue.filter((search) => {
+    return search.type === 'Name';
+  });
+
+  return nameSearch.length > 0 ? item.name.toLowerCase().indexOf(nameSearch[0].value.toLowerCase()) > -1 : true;
 }
 
 function pushIfUnderLimit(arr, value) {
@@ -89,7 +117,7 @@ function pushIfUnderLimit(arr, value) {
 }
 
 function checkSessions() {
-  if (!Session.get('query')) { Session.set('query', ''); }
+  if (!Session.get('query')) { Session.set('query', []); }
   if (!Session.get('league')) { Session.set('league', ''); }
 }
 

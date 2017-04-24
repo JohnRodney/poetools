@@ -2,7 +2,7 @@ import React from 'react';
 import { Session } from 'meteor/session';
 import ReactAutoComplete from './auto-complete.jsx';
 import { KnownMods } from '../../../helpers/known-mod-strings.jsx';
-
+KnownNames = ["Atziri's Promise"]
 export default class SearchComponent extends React.Component {
   constructor() {
     super();
@@ -17,7 +17,7 @@ export default class SearchComponent extends React.Component {
 
   addField() {
     const searches = this.state.searches;
-    searches.push('');
+    searches.push({ value: '', type: 'Name' });
     this.setState({ searches });
   }
 
@@ -25,14 +25,21 @@ export default class SearchComponent extends React.Component {
     this.setState({ searching: false });
   }
 
-  handleInput(i, e) {
+  handleInput(i, value) {
     const { searches } = this.state;
-    searches[i] = e;
+    searches[i] = { value, type: searches[i].type };
   }
 
+  changeType(i, type) {
+    const { searches } = this.state;
+    searches[i] = { value: searches[i].value, type };
+    this.setState({ searches });
+  }
+
+
   search() {
-    console.log(this.state.searches.join("&"))
-    Session.set('query', this.state.searches.join("&"));
+    console.log(this.state.searches)
+    Session.set('query', this.state.searches);
     this.setState({ searching: true })
   }
 
@@ -46,8 +53,14 @@ export default class SearchComponent extends React.Component {
               <div key={Meteor.uuid()} className='a-search-container'>
                 <ReactAutoComplete
                   id={'searches-' + i}
-                  items={KnownMods}
-                  value={search}
+                  items={{ Mod: KnownMods, Name: this.props.names }}
+                  value={search.value}
+                  type={search.type}
+                  typeChange={
+                    (type) => {
+                      this.changeType(i, type)
+                    }
+                  }
                   onChange={
                     (e) => {
                       this.handleInput(i, e);

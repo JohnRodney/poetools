@@ -24,11 +24,12 @@ class Search extends React.Component {
 
   render() {
     console.log(this.props);
+    const noItemsToDisplay = this.props.searchItems.length === 0 ? (<div className='no-items'>No items found</div>) : '';
     return (
       <div>
         <Header filter={this.filter} setLeague={this.setLeague} />
         <div className='search-results'>
-          <SearchComponent />
+          <SearchComponent names={this.props.names} />
           {
             this.props.searchItems.map((item) => {
               return (
@@ -39,6 +40,7 @@ class Search extends React.Component {
               )
             })
           }
+          { noItemsToDisplay }
         </div>
       </div>
     );
