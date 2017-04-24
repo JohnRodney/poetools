@@ -1,5 +1,6 @@
 import React from 'react';
 import { composeWithTracker } from 'react-komposer';
+import { setDefaultLoadingComponent } from 'react-komposer';
 import Stashes from '../api/stash/collection.js';
 import { Session } from 'meteor/session';
 import Stash from './stash.jsx';
@@ -65,4 +66,6 @@ function composer(props, onData) {
   }
 }
 
+const LoadingComponent = () => (<div className='loader'>Searching</div>);
+setDefaultLoadingComponent(LoadingComponent);
 export default composeWithTracker(composer)(Home);

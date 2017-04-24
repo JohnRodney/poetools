@@ -6,10 +6,9 @@ Meteor.publish('stashes', (accountName) => {
   return Stashes.find({ $and: [{accountName: { $regex: accountName  }}, {$where: "this.items.length > 1" } ]}, { limit: 100 });
 });
 
-Meteor.publish('searchStashes', (value) => {
-
-  let finalQuery = { items: { $elemMatch: { typeLine: 'Portal' , league: 'Hardcore Legacy' }}};
-  //let finalQuery = { items: { $elemMatch: { explicitMods: { $regex: value, $options: 'i' } }}};
+Meteor.publish('searchStashes', (value, league) => {
+  let searchLeague = league || '';
+  let finalQuery = { items: { $elemMatch: { explicitMods: { $regex: value, $options: 'i' }, league: league }}};
   const queries = value.split('&');
   const andArray = [];
   if (value.indexOf('&') > -1) {
@@ -24,7 +23,7 @@ Meteor.publish('searchStashes', (value) => {
     }
     console.log(andArray)
     return Stashes.find(
-      { items: { $elemMatch: { explicitMods: { $all: andArray } }}},
+      { items: { $elemMatch: { explicitMods: { $all: andArray }, league: league }}},
       { limit: 99 });
   }
 

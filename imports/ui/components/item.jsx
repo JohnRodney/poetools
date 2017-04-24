@@ -99,6 +99,7 @@ export default class Item extends React.Component {
             <Price note={item.note} />
           </div>
           <Whisper item={item} />
+          { item.league }
         </div>
       </div>
     )

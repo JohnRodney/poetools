@@ -17,9 +17,10 @@ FlowRouter.route('/stash-tab/:accountName', {
   },
 });
 
-FlowRouter.route('/searchExplicit/:searchValue', {
+FlowRouter.route('/searchExplicit/', {
   name: 'search',
   action() {
     mount(Search);
   }
 });
+

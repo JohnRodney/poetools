@@ -249,4 +249,256 @@
 }
 .search-component{
   padding: 20px;
+  background-color: #565656;
+  color: white;
+}
+.search-component button{
+  padding: 10px;
+  background-color: #343434;
+  color: white;
+  border: none;
+  width: 200px;
+  margin-top: 20px;
+  margin-left: 10px;
+  box-shadow: 0 0 10px black;
+}
+.search-component button:hover{
+  background-color: #348736;
+  box-shadow: 0 0 10px #348736;
+}
+.auto-complete{
+  position: relative;
+}
+.auto-complete input{
+  outline: none;
+  border: none;
+  width: 80%;
+  height: 30px;
+  background-color: #343434;
+  color: white;
+  padding-left: 20px;
+  box-sizing: border-box;
+}
+.auto-complete select{
+  margin: 0;
+  position: relative;
+  left: -12px;
+  box-shadow: none;
+  border-radius: 1px;
+  outline: none;
+  width: 10%;
+  border: 1px solid #459545;
+}
+.auto-complete select:hover{
+  box-shadow: none;
+}
+.suggestions{
+  top: 40px;
+  left: 10px;
+  position: absolute;
+  z-index: 300;
+  background-color: #343434;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 90%;
+  box-shadow: 1px 5px 5px black;
+}
+.suggestion{
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.suggestion:hover{
+  color: white;
+  background-color: black;
+  box-shadow: inset 0 0 20px white;
+}
+.search-component > div{
+  position: relative;
+}
+.close:before{
+  display: block;
+  position: absolute;
+  content: 'X';
+  width: 100%;
+  text-align: center;
+  color: white;
+  padding-top: 2px;
+}
+.close:hover{
+  background-color: #983434;
+}
+.close{
+  width: 20px;
+  height: 30px;
+  background-color: #676767;
+  position: absolute;
+  width: 9%;
+  top: 10px;
+  right: 0;
+  padding: 4px 0;
+  box-sizing: border-box;
+}
+button{
+  clear: both;
+  display: block;
+}
+.a-search-container{
+  position: relative;
+  width: 100%;
+}
+select{
+  background-color: #343434;
+  height: 30px;
+  border: none;
+  color: white;
+  box-shadow: 0 0 1px white;
+}
+select:hover{
+  box-shadow: 0 0 5px white;
+}
+.add-field{
+  margin-top: 5px;
+  margin-left: 10px;
+  background-color: #348434;
+  color: white;
+  font-size: 22px;
+  text-align: center;
+  width: 50px;
+}
+.loader-wobble {
+  left: 200px;
+  font-size: .8em;
+  top: 50%;
+  display: inline-block;
+  width: 5em;
+  height: .5em;
+  line-height: 1.3;
+  position: relative;
+  color: #0E5F76;
+  text-align: center;
+  z-index: 300;
+  box-shadow: 0 0 100px black;
+  text-shadow: 0 0 100px black;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  border-bottom: .1em solid;
+  margin-left: -5em;
+  -webkit-transform: translateX(50%);
+          transform: translateX(50%);
+  -webkit-animation: loadingText 1s infinite cubic-bezier(1, -2.3, 1, 2.5) alternate, loadingBar 8s infinite cubic-bezier(0.445, 0.050, 0.550, 0.950) alternate;
+          animation: loadingText 1s infinite cubic-bezier(1, -2.3, 1, 2.5) alternate, loadingBar 8s infinite cubic-bezier(0.445, 0.050, 0.550, 0.950) alternate;
+}
+#toggle:checked ~ #sect .loader-wobble {
+  -webkit-animation: loadingTextMove 1s infinite cubic-bezier(1, -2.3, 1, 2.5) alternate, loadingText 1s infinite cubic-bezier(1, -2.3, 1, 2.5) alternate, loadingBar 8s infinite cubic-bezier(0.445, 0.050, 0.550, 0.950) alternate;
+          animation: loadingTextMove 1s infinite cubic-bezier(1, -2.3, 1, 2.5) alternate, loadingText 1s infinite cubic-bezier(1, -2.3, 1, 2.5) alternate, loadingBar 8s infinite cubic-bezier(0.445, 0.050, 0.550, 0.950) alternate;
+  -webkit-filter: drop-shadow(0.2em 0.2em 0.2em rgba(0, 0, 0, 0.5));
+          filter: drop-shadow(0.2em 0.2em 0.2em rgba(0, 0, 0, 0.5));
+}
+.loader-wobble:before, .loader-wobble:after {
+  content: '';
+  width: 7em;
+  height: 7em;
+  position: absolute;
+  top: -3em;
+  left: -.5em;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+}
+.loader-wobble:before {
+  box-shadow: inset 0 0 0 0.2em rgba(8, 61, 86, 0.5);
+  -webkit-animation: loadingInner 1s infinite cubic-bezier(1, -2.3, 1, 2.5) alternate;
+          animation: loadingInner 1s infinite cubic-bezier(1, -2.3, 1, 2.5) alternate;
+}
+.loader-wobble:after {
+  box-shadow: 0 0 100px #4589fe, inset 0 0 20px #4589fe;
+  color: #083D56;
+  border-radius: 50%;
+  border: .2em dashed;
+  border-top: 0.2em solid #0E5F76;
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+  -webkit-animation: loading 1s infinite cubic-bezier(0.6, 0, 0.4, 1);
+          animation: loading 1s infinite cubic-bezier(0.6, 0, 0.4, 1);
+}
+
+@-webkit-keyframes loading {
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes loading {
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes loadingInner {
+  to {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+}
+@keyframes loadingInner {
+  to {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+}
+@-webkit-keyframes loadingText {
+  0% {
+    color: #0E5F76;
+    width: 0em;
+  }
+  100% {
+    color: #081E3F;
+    width: 4em;
+  }
+}
+@keyframes loadingText {
+  0% {
+    color: #0E5F76;
+    width: 0em;
+  }
+  100% {
+    color: #081E3F;
+    width: 4em;
+  }
+}
+@-webkit-keyframes loadingTextMove {
+  0% {
+    text-indent: 1em;
+  }
+  100% {
+    text-indent: -1em;
+  }
+}
+@keyframes loadingTextMove {
+  0% {
+    text-indent: 1em;
+  }
+  100% {
+    text-indent: -1em;
+  }
+}
+@-webkit-keyframes loadingBar {
+  0% {
+    width: 0em;
+  }
+  100% {
+    width: 6em;
+  }
+}
+@keyframes loadingBar {
+  0% {
+    width: 0em;
+  }
+  100% {
+    width: 6em;
+  }
 }

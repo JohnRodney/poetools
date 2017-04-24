@@ -5,6 +5,11 @@ export default class Header extends React.Component {
     super();
     this.changeLeague = this.changeLeague.bind(this);
   }
+
+  componentDidMount() {
+    Session.set('league', 'Hardcore Legacy');
+  }
+
   changeLeague(e) {
     this.props.setLeague(e.target.value);
   }
@@ -16,7 +21,7 @@ export default class Header extends React.Component {
         <select onChange={this.changeLeague}>
           <option>Hardcore</option>
           <option>Standard</option>
-          <option>Hardcore Legacy</option>
+          <option selected>Hardcore Legacy</option>
           <option>Legacy</option>
         </select>
         <input
