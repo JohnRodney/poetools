@@ -219,5 +219,6 @@ export const KnownMods = [
   'chance to cast', 'curse enemies', 'zombies deal',
   /* 3 mods added to weapon damage need a better detection */
   'fire damage to spells', 'cold damage to spells', 'lightning damage to spells',
-  'fire damage', 'cold damage', 'lightning damage', 'physical damage'
-]
+  'fire damage', 'cold damage', 'lightning damage', 'physical damage',
+];
+export default KnownMods;

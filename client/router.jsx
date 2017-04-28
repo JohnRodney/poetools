@@ -1,7 +1,7 @@
-import Home from '../imports/ui/home.jsx';
 import { mount } from 'react-mounter';
-import StashTab from '../imports/ui/components/stash-tab/stash-tab.jsx';
-import Search from '../imports/ui/components/search/explicit.jsx';
+import Sarch from '../imports/ui/home';
+import StashTab from '../imports/ui/components/stash-tab/stash-tab';
+import Home from '../imports/ui/components/search/explicit';
 
 FlowRouter.route('/', {
   name: 'home',
@@ -17,10 +17,9 @@ FlowRouter.route('/stash-tab/:accountName', {
   },
 });
 
-FlowRouter.route('/searchExplicit/', {
+FlowRouter.route('/searchUser/', {
   name: 'search',
   action() {
     mount(Search);
   }
 });
-

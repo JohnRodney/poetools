@@ -1,20 +1,14 @@
 import React from 'react';
-import { composeWithTracker } from 'react-komposer';
-import Stashes from '../../../api/stash/collection.js';
-import Item from '../item.jsx';
-import Header from '../header.jsx';
-import SearchComponent from './search-component.jsx'
+import { composeWithTracker, setDefaultLoadingComponent } from 'react-komposer';
 import { Session } from 'meteor/session';
-import { setDefaultLoadingComponent } from 'react-komposer';
-import { composer } from './search-composer.js';
+import Item from '../item';
+import Header from '../header';
+import SearchComponent from './search-component';
+import { composer } from './search-composer';
 
 class Search extends React.Component {
-  constructor() {
-    super();
-  }
-
-  filter(e) {
-    console.log(e, 'filter');
+  static filter(/* e */) {
+    // console.log(e, 'filter');
   }
 
   setLeague(league) {

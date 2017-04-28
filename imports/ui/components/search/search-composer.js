@@ -14,6 +14,7 @@ export const composer = function (props, onData) {
 
 function findItemsInStashes(searchValue) {
   const stashes = Stashes.find().fetch();
+  console.log(stashes[0])
   const searchItems = [];
 
   console.log(stashes.length)

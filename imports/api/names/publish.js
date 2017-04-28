@@ -1,6 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import Names from './collection.js';
+import Names from './collection';
 
-Meteor.publish('names', () => {
-  return Names.find();
-});
+Meteor.publish('names', () => Names.find());

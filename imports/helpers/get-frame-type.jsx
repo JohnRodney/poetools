@@ -1,4 +1,4 @@
-export const getFrameType = function(frameType) {
+export const getFrameType = function getFrameType(frameType) {
   return [
     'normal',
     'magic',
@@ -9,6 +9,7 @@ export const getFrameType = function(frameType) {
     'divination card',
     'quest item',
     'prophecy',
-    'relic'
+    'relic',
   ][frameType];
-}
+};
+export default getFrameType;
