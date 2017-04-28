@@ -160,7 +160,7 @@ ToolTip.propTypes = {
   item: PropTypes.shape({
     corrupted: PropTypes.bool.isRequired,
     descrText: PropTypes.string,
-    explicitMods: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    explicitMods: PropTypes.arrayOf(PropTypes.string.isRequired),
     frameType: PropTypes.number.isRequired,
     h: PropTypes.number.isRequired,
     icon: PropTypes.string.isRequired,

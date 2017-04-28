@@ -1,5 +1,5 @@
 import React from 'react';
-import Meteor from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import Sockets from './sockets';
 import Price from './stash-tab/price';
@@ -113,7 +113,7 @@ Item.propTypes = {
     inventoryId: PropTypes.string.isRequired,
     league: PropTypes.string.isRequired,
     lockedToCharacter: PropTypes.bool.isRequired,
-    accountName: PropTypes.bool,
+    accountName: PropTypes.string,
     name: PropTypes.string.isRequired,
     socketedItems: PropTypes.arrayOf(PropTypes.any).isRequired,
     sockets: PropTypes.arrayOf(PropTypes.any).isRequired,

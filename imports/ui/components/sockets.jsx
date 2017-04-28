@@ -54,5 +54,9 @@ Sockets.propTypes = {
     attr: PropTypes.string.isRequired,
     group: PropTypes.number.isRequired,
   }).isRequired).isRequired,
-  width: PropTypes.number.isRequired,
+  width: PropTypes.number,
+};
+
+Sockets.defaultProps = {
+  width: 1,
 };
