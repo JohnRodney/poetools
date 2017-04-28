@@ -1,9 +1,10 @@
 import React from 'react';
-import { Meteor } from 'meteor/meteor';
-import PropTypes from 'prop-types';
+import Meteor from 'meteor/meteor';
 import Sockets from './sockets';
 import Price from './stash-tab/price';
 import Whisper from './stash-tab/whisper';
+import ItemPropType from '../../proptypes/item';
+import defaultItem from '../../defaults/item';
 
 export default class Item extends React.Component {
   static getItemProperties(item) {
@@ -100,27 +101,9 @@ export default class Item extends React.Component {
 }
 
 Item.propTypes = {
-  item: PropTypes.shape({
-    corrupted: PropTypes.bool.isRequired,
-    descrText: PropTypes.string,
-    explicitMods: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    frameType: PropTypes.number.isRequired,
-    h: PropTypes.number.isRequired,
-    icon: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    identified: PropTypes.bool.isRequired,
-    ilvl: PropTypes.number.isRequired,
-    inventoryId: PropTypes.string.isRequired,
-    league: PropTypes.string.isRequired,
-    lockedToCharacter: PropTypes.bool.isRequired,
-    accountName: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    socketedItems: PropTypes.arrayOf(PropTypes.any).isRequired,
-    sockets: PropTypes.arrayOf(PropTypes.any).isRequired,
-    typeLine: PropTypes.string.isRequired,
-    verified: PropTypes.bool.isRequired,
-    w: PropTypes.number.isRequired,
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-  }).isRequired,
+  item: ItemPropType,
+};
+
+Item.defaultProps = {
+  item: defaultItem,
 };

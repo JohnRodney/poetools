@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import Item from './components/item';
+import ItemPropType from '../proptypes/item';
 
 export default class Stash extends React.Component {
   constructor() {
@@ -53,28 +54,7 @@ Stash.propTypes = {
     }).isRequired,
     accountName: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({
-      corrupted: PropTypes.bool.isRequired,
-      descrText: PropTypes.string,
-      explicitMods: PropTypes.arrayOf(PropTypes.string.isRequired),
-      frameType: PropTypes.number.isRequired,
-      h: PropTypes.number.isRequired,
-      icon: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      identified: PropTypes.bool.isRequired,
-      ilvl: PropTypes.number.isRequired,
-      inventoryId: PropTypes.string.isRequired,
-      league: PropTypes.string.isRequired,
-      lockedToCharacter: PropTypes.bool.isRequired,
-      name: PropTypes.string.isRequired,
-      socketedItems: PropTypes.arrayOf(PropTypes.any).isRequired,
-      sockets: PropTypes.arrayOf(PropTypes.any).isRequired,
-      typeLine: PropTypes.string.isRequired,
-      verified: PropTypes.bool.isRequired,
-      w: PropTypes.number.isRequired,
-      x: PropTypes.number.isRequired,
-      y: PropTypes.number.isRequired,
-    }).isRequired).isRequired,
+    items: PropTypes.arrayOf(ItemPropType).isRequired,
     lastCharacterName: PropTypes.string.isRequired,
     public: PropTypes.bool.isRequired,
     stash: PropTypes.string.isRequired,

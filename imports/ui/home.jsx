@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import Stashes from '../api/stash/collection';
 import Stash from './stash';
 import Header from './components/header';
+import ItemPropType from '../defaults/item';
 
 class Home extends React.Component {
   static filter(e) {
@@ -74,28 +75,7 @@ Home.propTypes = {
     }).isRequired,
     accountName: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({
-      corrupted: PropTypes.bool.isRequired,
-      descrText: PropTypes.string,
-      explicitMods: PropTypes.arrayOf(PropTypes.string.isRequired),
-      frameType: PropTypes.number.isRequired,
-      h: PropTypes.number.isRequired,
-      icon: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      identified: PropTypes.bool.isRequired,
-      ilvl: PropTypes.number.isRequired,
-      inventoryId: PropTypes.string.isRequired,
-      league: PropTypes.string.isRequired,
-      lockedToCharacter: PropTypes.bool.isRequired,
-      name: PropTypes.string.isRequired,
-      socketedItems: PropTypes.arrayOf(PropTypes.any).isRequired,
-      sockets: PropTypes.arrayOf(PropTypes.any).isRequired,
-      typeLine: PropTypes.string.isRequired,
-      verified: PropTypes.bool.isRequired,
-      w: PropTypes.number.isRequired,
-      x: PropTypes.number.isRequired,
-      y: PropTypes.number.isRequired,
-    }).isRequired).isRequired,
+    items: PropTypes.arrayOf(ItemPropType).isRequired,
     lastCharacterName: PropTypes.string.isRequired,
     public: PropTypes.bool.isRequired,
     stash: PropTypes.string.isRequired,

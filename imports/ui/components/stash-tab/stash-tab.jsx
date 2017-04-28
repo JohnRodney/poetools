@@ -5,6 +5,7 @@ import Header from '../header';
 import Stashes from '../../../api/stash/collection';
 import ToolTip from './tooltip';
 import Sockets from '../sockets';
+import ItemPropType from '../../../proptypes/item';
 
 const defaultItem = JSON.parse('{"verified":false,"w":1,"h":1,"ilvl":55,"icon":"http://web.poecdn.com/image/Art/2DItems/Jewels/basicdex.png?scale=1&w=1&h=1&v=7375b3bb90a9809870b31d1aa4aa68b93","league":"Hardcore Legacy","id":"ebfd91d6fcbaf2bbd5ecaaa7578e673d07dede91409da1d4db8a0511df52545c","sockets":[],"name":"<<set:MS>><<set:M>><<set:S>>Plague Prism","typeLine":"Viridian Jewel","identified":true,"corrupted":false,"lockedToCharacter":false,"explicitMods":["14% increased Physical Damage","5% reduced Mana Cost of Skills"],"descrText":"Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.","frameType":2,"x":11,"y":3,"inventoryId":"Stash12","socketedItems":[]}');
 
@@ -153,28 +154,7 @@ StashTab.propTypes = {
     }).isRequired,
     accountName: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({
-      corrupted: PropTypes.bool.isRequired,
-      descrText: PropTypes.string,
-      explicitMods: PropTypes.arrayOf(PropTypes.string.isRequired),
-      frameType: PropTypes.number.isRequired,
-      h: PropTypes.number.isRequired,
-      icon: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      identified: PropTypes.bool.isRequired,
-      ilvl: PropTypes.number.isRequired,
-      inventoryId: PropTypes.string.isRequired,
-      league: PropTypes.string.isRequired,
-      lockedToCharacter: PropTypes.bool.isRequired,
-      name: PropTypes.string.isRequired,
-      socketedItems: PropTypes.arrayOf(PropTypes.any).isRequired,
-      sockets: PropTypes.arrayOf(PropTypes.any).isRequired,
-      typeLine: PropTypes.string.isRequired,
-      verified: PropTypes.bool.isRequired,
-      w: PropTypes.number.isRequired,
-      x: PropTypes.number.isRequired,
-      y: PropTypes.number.isRequired,
-    }).isRequired).isRequired,
+    items: PropTypes.arrayOf(ItemPropType).isRequired,
     lastCharacterName: PropTypes.string.isRequired,
     public: PropTypes.bool.isRequired,
     stash: PropTypes.string.isRequired,
