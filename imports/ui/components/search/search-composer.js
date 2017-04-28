@@ -1,58 +1,81 @@
-import Stashes from '../../../api/stash/collection.js';
-import Names from '../../../api/names/collection.js';
+import { Session } from 'meteor/session';
+import Stashes from '../../../api/stash/collection';
+import Names from '../../../api/names/collection';
 
-export const composer = function (props, onData) {
-  checkSessions();
-  const searchValue = Session.get('query');
-  const stashesHandle = Meteor.subscribe('searchStashes', searchValue, Session.get('league'));
-  const namesHandle = Meteor.subscribe('names');
-  if (stashesHandle.ready() && namesHandle.ready()) {
-    const searchItems = findItemsInStashes(searchValue);
-    onData( null, { searchItems, names: Names.findOne({}).names });
-  }
+function modContainsSearch(mod, searchValue) {
+  return mod.toLowerCase().indexOf(searchValue.toLowerCase()) > -1;
 }
 
-function findItemsInStashes(searchValue) {
-  const stashes = Stashes.find().fetch();
-  console.log(stashes[0])
-  const searchItems = [];
+function pushIfUnderLimit(arr, value) {
+  if (arr.length < 100) { arr.push(value); }
+}
 
-  console.log(stashes.length)
-  stashes.map((stash) => {
-    return handleStashes(stash, searchItems, searchValue);
-  });
+function storeMetaDataOnItem(item, stash) {
+  const itemCopy = item;
+  itemCopy.accountName = stash.accountName;
+  itemCopy.player = stash.lastCharacterName;
+  itemCopy.stashName = stash.stash;
+}
 
-  return searchItems;
+function itemMatchesName(searchValue, item) {
+  const nameSearch = searchValue.filter(search => search.type === 'Name');
+  const validName = nameSearch.length > 0;
+  return validName ? item.name.toLowerCase()
+    .indexOf(nameSearch[0].value.toLowerCase()) > -1 : true;
+}
+
+function itemMatchesLeague(item) {
+  return item.league.indexOf(Session.get('league') || '') > -1;
 }
 
 function isMultiModSearch(searchValue) {
   return searchValue.length > 1;
 }
 
-function handleStashes(stash, searchItems, searchValue) {
-  if(!stash.items.length > 0) { return false; }
-  stash.items.map((item) => {
-    if (!item.explicitMods) { return false; }
-    if (isMultiModSearch(searchValue)) { return filterMultipleMods(searchValue, item, stash, searchItems) }
-    return handleSingleModQuery(item, searchValue, stash, searchItems);
+function allQueriesWereFound(searchTracker) {
+  return Object.keys(searchTracker).every(key => searchTracker[key]);
+}
+
+function searchForQueryMatch(allQueries, item, searchTracker) {
+  const searchCopy = searchTracker;
+  allQueries.forEach((query) => {
+    item.explicitMods.forEach((mod) => {
+      if (mod.toLowerCase().indexOf(query.toLowerCase()) > -1) {
+        searchCopy[query.replace(/ /g, '')] = true;
+      }
+    });
   });
 }
-/*
- *[{
-   value: 'maximum life',
-   type: 'Mod',
- },
-   value: 'Atziri's Promise',
-   type: 'Name',
- ]
- */
+
+function setAllKeysAsFalse(allQueries, searchTracker) {
+  const searchCopy = searchTracker;
+  allQueries.forEach((query) => { searchCopy[query.replace(/ /g, '')] = false; });
+}
+
+function filterMultipleMods(searchValue, item, stash, searchItems) {
+  const allQueries = searchValue
+    .map(search => (search.type === 'Mod' ? search.value : false))
+    .filter(search => search);
+  const searchTracker = {};
+  setAllKeysAsFalse(allQueries, searchTracker);
+  searchForQueryMatch(allQueries, item, searchTracker);
+
+  if (allQueriesWereFound(searchTracker)
+      && itemMatchesLeague(item)
+      && itemMatchesName(searchValue, item)) {
+    storeMetaDataOnItem(item, stash);
+    pushIfUnderLimit(searchItems, item);
+  }
+}
+
 function handleSingleModQuery(item, searchValue, stash, searchItems) {
-  search = searchValue[0];
+  const search = searchValue[0];
   if (search.type === 'Mod') {
     item.explicitMods.map((mod) => {
-      if(!modContainsSearch(mod, search.value) || !itemMatchesLeague(item)) { return false; }
+      if (!modContainsSearch(mod, search.value) || !itemMatchesLeague(item)) { return false; }
       storeMetaDataOnItem(item, stash);
       pushIfUnderLimit(searchItems, item);
+      return true;
     });
   } else if (search.type === 'Name') {
     if (item.name.toLowerCase().indexOf(search.value.toLowerCase()) > -1) {
@@ -62,59 +85,24 @@ function handleSingleModQuery(item, searchValue, stash, searchItems) {
   }
 }
 
-function setAllKeysAsFalse(allQueries, searchTracker) {
-  allQueries.forEach((query) => { searchTracker[query.replace(/ /g, '')] = false; });
-}
-
-function searchForQueryMatch(allQueries, item, searchTracker) {
-  allQueries.forEach((query) => {
-    item.explicitMods.forEach((mod) => {
-      if(mod.toLowerCase().indexOf(query.toLowerCase()) > -1) {
-        searchTracker[query.replace(/ /g, '')] = true;
-      }
-    });
+function handleStashes(stash, searchItems, searchValue) {
+  if (!stash.items.length > 0) { return false; }
+  stash.items.map((item) => {
+    if (!item.explicitMods) { return false; }
+    if (isMultiModSearch(searchValue)) {
+      return filterMultipleMods(searchValue, item, stash, searchItems);
+    }
+    return handleSingleModQuery(item, searchValue, stash, searchItems);
   });
+  return true;
 }
 
-function allQueriesWereFound(searchTracker) {
-  return Object.keys(searchTracker).every((key) => {
-    return searchTracker[key];
-  });
-}
+function findItemsInStashes(searchValue) {
+  const stashes = Stashes.find().fetch();
+  const searchItems = [];
+  stashes.map(stash => handleStashes(stash, searchItems, searchValue));
 
-function itemMatchesLeague(item) {
-  return item.league.indexOf(Session.get('league') || '') > -1;
-}
-
-function storeMetaDataOnItem(item, stash) {
-  item.accountName = stash.accountName;
-  item.player = stash.lastCharacterName;
-  item.stashName = stash.stash;
-}
-
-function filterMultipleMods(searchValue, item, stash, searchItems) {
-  const allQueries = searchValue.map((search) => { return search.type === 'Mod' ? search.value : false; })
-    .filter((search) => search);
-  const searchTracker = {};
-  setAllKeysAsFalse(allQueries, searchTracker)
-  searchForQueryMatch(allQueries, item, searchTracker);
-
-  if(allQueriesWereFound(searchTracker) && itemMatchesLeague(item) && itemMatchesName(searchValue, item)) {
-    storeMetaDataOnItem(item, stash)
-    pushIfUnderLimit(searchItems, item)
-  }
-}
-
-function itemMatchesName(searchValue, item) {
-  nameSearch = searchValue.filter((search) => {
-    return search.type === 'Name';
-  });
-
-  return nameSearch.length > 0 ? item.name.toLowerCase().indexOf(nameSearch[0].value.toLowerCase()) > -1 : true;
-}
-
-function pushIfUnderLimit(arr, value) {
-  if (arr.length < 100) { arr.push(value); }
+  return searchItems;
 }
 
 function checkSessions() {
@@ -122,6 +110,15 @@ function checkSessions() {
   if (!Session.get('league')) { Session.set('league', ''); }
 }
 
-function modContainsSearch(mod, searchValue) {
-  return mod.toLowerCase().indexOf(searchValue.toLowerCase()) > -1
-}
+export const composer = function compoer(props, onData) {
+  checkSessions();
+  const searchValue = Session.get('query');
+  const stashesHandle = Meteor.subscribe('searchStashes', searchValue, Session.get('league'));
+  const namesHandle = Meteor.subscribe('names');
+  if (stashesHandle.ready() && namesHandle.ready()) {
+    const searchItems = findItemsInStashes(searchValue);
+    onData(null, { searchItems, names: Names.findOne({}).names });
+  }
+};
+
+export default composer;

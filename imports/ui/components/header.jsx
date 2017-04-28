@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Session } from 'meteor/session';
 
 export default class Header extends React.Component {
   constructor() {
@@ -16,19 +18,24 @@ export default class Header extends React.Component {
 
   render() {
     return (
-      <div className='header'>
+      <div className="header">
         Poe Tools made by a fool
         <select onChange={this.changeLeague}>
           <option>Hardcore</option>
           <option>Standard</option>
-          <option selected>Hardcore Legacy</option>
+          <option>Hardcore Legacy</option>
           <option>Legacy</option>
         </select>
         <input
           onChange={this.props.filter}
         />
-        <img className='search-icon' src='/search-icon.png'/>
+        <img alt="magnifying glass" className="search-icon" src="/search-icon.png" />
       </div>
     );
   }
+}
+
+Header.propTypes = {
+  setLeague: PropTypes.func.isRequired,
+  filter: PropTypes.func.isRequired,
 };

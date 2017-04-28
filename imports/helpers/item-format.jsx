@@ -45,6 +45,7 @@ function makeModSearchable(searchableModsObject, mod, notFountMods) {
 }
 
 function breakExplicitMods(item, notFountMods) {
+  const itemCopy = item;
   if (!item.explicitMods || item.typeLine.indexOf('Leaguestone') > -1 || item.frameType === 4 ||
     item.typeLine.indexOf('Flask') > -1) { return item; }
 
@@ -53,39 +54,19 @@ function breakExplicitMods(item, notFountMods) {
   item.explicitMods.forEach((mod) => {
     makeModSearchable(searchableModsObject, mod, notFountMods);
   });
-  if(item.implicitMods) {
+  if (item.implicitMods) {
     item.implicitMods.forEach((mod) => {
-      makeModSearchable(searchableModsObject, mod, notFountMods)
+      makeModSearchable(searchableModsObject, mod, notFountMods);
     });
   }
 
-  item.searchableMods = searchableModsObject;
-  return item;
+  itemCopy.searchableMods = searchableModsObject;
+  return itemCopy;
 }
 
-export const ItemFormat = function(item, notFountMods) {
-  item = breakExplicitMods(item, notFountMods);
-  return item;
-}
+export const ItemFormat = function itemFormat(item, notFountMods) {
+  const itemCopy = breakExplicitMods(item, notFountMods);
+  return itemCopy;
+};
 
-
-
-function findModType(mod, notFountMods) {
-  const result = KnownMods.filter((modType) => {
-    return mod.toLowerCase().indexOf(modType) > -1;
-  });
-  if (result.length > 0) {
-    return result[0];
-  }
-
-
-  let searchableModString = mod.substring(mod.length - mod.split('').reverse().join('').search(/[0-9]/), mod.length).replace(/%/g, '').replace(/\)/g, '');
-  if (searchableModString[0] === ' ') {
-    searchableModString = searchableModString.substring(1, searchableModString.length);
-  }
-  if (notFountMods.indexOf(searchableModString.toLowerCase()) === -1) {
-    notFountMods.push(searchableModString.toLowerCase());
-  }
-
-  return false;
-}
+export default ItemFormat;
